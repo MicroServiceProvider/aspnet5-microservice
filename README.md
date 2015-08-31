@@ -9,7 +9,7 @@ This package has only been tested against DNX beta6 but I will continue to updat
 Run the following from the package manager console to install the package
 
 ```
-PM> Install-Package aspnet5-microservice -Pre
+PM> Install-Package aspnet5.microservice -Pre
 ```
 
 Pre-release option is currently required as the ASP.NET 5 packages are still pre-release packages.
