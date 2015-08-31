@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using AspNet5.Microservice;
 using AspNet5.Microservice.Health;
@@ -32,20 +33,36 @@ namespace aspnet5_microservice_sample
 
         public void Configure(IApplicationBuilder app)
         {
+
+            // Build an IConfiguration instance using the ConfigurationBuilder as normal
             Dictionary<string, string> collection = new Dictionary<string, string>() { { "key1", "value1" }, { "key2", "value2" } };
             var config1 = new ConfigurationBuilder().AddInMemoryCollection(collection).Build();
             var config2 = new ConfigurationBuilder(_appenv.ApplicationBasePath).AddIniFile("hosting.ini").Build();
 
+            // AppConfig is a static class that groups together instances of IConfiguration and makes them available statically anywhere in the application
             AppConfig.AddConfigurationObject(config1, "memorySource");
             AppConfig.AddConfigurationObject(config2, "iniSource");
 
-            // Register health checks
+            // The above configuration sources can now be referenced easily with a static helper function
+            Console.WriteLine("key1 key in memorySource: "+ AppConfig.Get("memorySource", "key1"));
+            Console.WriteLine("server.urls key in iniSource: " + AppConfig.Get("iniSource", "server.urls"));
+
+            /*
+             *   Health checks are simply functions that return either healthy or unhealthy with an optional message string
+             */
             HealthCheckRegistry.RegisterHealthCheck("MyCustomMonitor", () => HealthResponse.Healthy("Test Message"));
             HealthCheckRegistry.RegisterHealthCheck("MyCustomMonitor2", () => HealthResponse.Healthy("Test Message2"));
             HealthCheckRegistry.RegisterHealthCheck("SampleOperation", () => SampleHealthCheckOperation());
 
-            // Activate endpoints
+            // Activate /health endpoint
             app.UseHealthEndpoint();
+
+            /* 
+             * Activate /env endpoint
+             *
+             * The ApplicationConfiguration element of the env endpoint will only contain data if the AppConfig helper class is 
+             * used to manage application configuration
+             */
             app.UseEnvironmentEndpoint();
 
             /*
@@ -54,6 +71,7 @@ namespace aspnet5_microservice_sample
              *   without any parameters
              */
 
+            // Activate /info endpoint
 #if DNXCORE50
             // Required for .NET Core until the relevant APIs are added
             app.UseInfoEndpoint(typeof(Startup).GetTypeInfo().Assembly.GetName());
@@ -69,4 +87,5 @@ namespace aspnet5_microservice_sample
         }
 
     }
+
 }
