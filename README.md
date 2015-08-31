@@ -29,9 +29,9 @@ Documentation is currently lacking but will be available on the Wiki as it is ad
 
 A working sample is included in this repo to use it follow these steps:
 
-1. Install DNVM as described at [This link](https://github.com/aspnet/Home)
+Install DNVM as described at [This link](https://github.com/aspnet/Home)
 
-2. Install the DNX beta6 runtime
+Install the DNX beta6 runtime
 
 #### For full CLR / Mono
 ```
@@ -43,13 +43,13 @@ dnvm install 1.0.0-beta6
 dnvm install 1.0.0-beta6 -r coreclr
 ```
 
-3. Change into sample project directory and run the following to restore packages from Nuget
+Change into sample project directory and run the following to restore packages from Nuget
 
 ```
 dnu restore
 ```
 
-4. Start the application by running one of the below depending on platform from the sample project directory
+Start the application by running one of the below depending on platform from the sample project directory
 
 #### Windows
 ```
@@ -61,7 +61,7 @@ dnx . web
 dnx . kestrel
 ```
 
-5. The following endpoints will be available:
+The following endpoints will be available:
 
 - [http://localhost:5000/info](http://localhost:5000/info)
 - [http://localhost:5000/health](http://localhost:5000/health)
