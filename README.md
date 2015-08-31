@@ -61,3 +61,8 @@ dnx . web
 dnx . kestrel
 ```
 
+5. The following endpoints will be available:
+
+- [http://localhost:5000/info](http://localhost:5000/info)
+- [http://localhost:5000/health](http://localhost:5000/health)
+- [http://localhost:5000/env](http://localhost:5000/env)
