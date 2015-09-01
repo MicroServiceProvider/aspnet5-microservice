@@ -60,11 +60,8 @@ namespace AspNet5.Microservice
 
             switch (platform)
             {
-                case PlatformID.MacOSX:
-                    env.Os = "Mac OSX";
-                    break;
                 case PlatformID.Unix:
-                    env.Os = "Linux";
+                    env.Os = "Linux/Unix";
                     break;
                 case PlatformID.Win32NT:
                     env.Os = "Windows";
