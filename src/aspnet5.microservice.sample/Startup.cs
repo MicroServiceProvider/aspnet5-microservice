@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using AspNet5.Microservice;
 using AspNet5.Microservice.Health;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
+using Microsoft.Dnx.Runtime;
 using Microsoft.Framework.Configuration;
 using Microsoft.Framework.DependencyInjection;
-using Microsoft.Framework.Runtime;
 
 #if DNXCORE50
 using System.Reflection;
@@ -46,6 +45,10 @@ namespace aspnet5_microservice_sample
             // The above configuration sources can now be referenced easily with a static helper function
             Console.WriteLine("key1 key in memorySource: "+ AppConfig.Get("memorySource", "key1"));
             Console.WriteLine("server.urls key in iniSource: " + AppConfig.Get("iniSource", "server.urls"));
+
+            // Runtime configuration can be updated easily as well
+            AppConfig.Set("iniSource", "server.urls", "http://localhost:5001");
+            Console.WriteLine("Modified server.urls key in iniSource: " + AppConfig.Get("iniSource", "server.urls"));
 
             /*
              *   Health checks are simply functions that return either healthy or unhealthy with an optional message string

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
+using System.Linq;
 using Microsoft.Framework.Configuration;
 
 namespace AspNet5.Microservice
@@ -39,7 +39,7 @@ namespace AspNet5.Microservice
         /// </summary>
         public static string Get(string sourceName, string key)
         {
-            return Sources[sourceName].Get(key);
+            return Sources[sourceName].GetSection(key).Value;
         }
 
         /// <summary>
@@ -50,8 +50,9 @@ namespace AspNet5.Microservice
         /// </summary>
         public static void Set(string sourceName, string key, string value)
         {
-            Sources[sourceName].Set(key, value);
+            Sources[sourceName].GetSection(key).Value = value;
         }
+        
 
         /// <summary>
         ///  Get all values from the specified configuration instance
@@ -64,17 +65,11 @@ namespace AspNet5.Microservice
             {
                 throw new InvalidOperationException("No configuration source registered with name "+ sourceName);
             }
-
-            // Make this dynamic since we can't see it at compile time because it is injected at runtime
-            dynamic sourceConfiguration = Sources[sourceName];
-
-            // Use reflection to get the values stored in this configuration source as they are in a protected property and there is no method to pull them all out
-            ConfigurationSource source = sourceConfiguration.Sources[0];
-            PropertyInfo privateField = source.GetType().GetProperty("Data", BindingFlags.NonPublic | BindingFlags.Instance);
-            Dictionary<string,string> valuesDictionary = (Dictionary<string,string>) privateField.GetValue(source);
-
+            
+            // Get children of this source and return them
+            IConfiguration sourceConfiguration = Sources[sourceName];
+            Dictionary<string, string> valuesDictionary = sourceConfiguration.GetChildren().ToDictionary(child => child.Key, child => child.Value);
             return valuesDictionary;
-
         }
 
     }

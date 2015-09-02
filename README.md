@@ -14,13 +14,6 @@ Run the following from the package manager console to install the package
 PM> Install-Package aspnet5.microservice
 ```
 
-One of the packages this library depends on to run under .NET Core is not yet available in the Nuget.org repo so you need to add the ASP.NET VNext MyGet feed if you plan to target .NET Core.
-
-#### Feed URL
-```
-https://www.myget.org/F/aspnetvnext/
-```
-
 ## Documentation
 
 Documentation is currently lacking but will be available on the Wiki as it is added. The sample project does contain fully commented code.
