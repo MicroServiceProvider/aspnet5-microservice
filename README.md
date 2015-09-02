@@ -2,7 +2,7 @@
 
 A library containing a small set of classes that add actuator style endpoints to an ASP.NET 5 application. Works on both Windows and Linux and will run on either .NET Framework, Mono or the .NET CoreCLR.
 
-This package has only been tested against DNX beta6 but I will continue to update the package as future betas are pushed to the Nuget.org repository by the ASP.NET team.
+This package has only been tested against DNX beta7 but I will continue to update the package as future betas are pushed to the Nuget.org repository by the ASP.NET team.
 
 Code is licensed under the ISC license to use as you wish.
 
