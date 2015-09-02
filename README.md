@@ -24,7 +24,7 @@ A working sample is included in this repo to use it follow these steps:
 
 Install DNVM as described at [This link](https://github.com/aspnet/Home)
 
-Install the DNX beta6 runtime
+Install the DNX runtime
 
 #### For full CLR / Mono
 ```
