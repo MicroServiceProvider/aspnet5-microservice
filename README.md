@@ -28,12 +28,12 @@ Install the DNX beta6 runtime
 
 #### For full CLR / Mono
 ```
-dnvm install 1.0.0-beta6
+dnvm install 1.0.0-beta7
 ```
 
 #### For CoreCLR
 ```
-dnvm install 1.0.0-beta6 -r coreclr
+dnvm install 1.0.0-beta7 -r coreclr
 ```
 
 Change into sample project directory and run the following to restore packages from Nuget
