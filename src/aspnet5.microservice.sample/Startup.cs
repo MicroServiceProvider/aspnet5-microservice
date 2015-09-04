@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using AspNet5.Microservice;
 using AspNet5.Microservice.Health;
+using AspNet5.Microservice.Logging;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.Dnx.Runtime;
 using Microsoft.Framework.Configuration;
 using Microsoft.Framework.DependencyInjection;
+using Microsoft.Framework.Logging;
 
 #if DNXCORE50
 using System.Reflection;
@@ -32,6 +34,11 @@ namespace aspnet5_microservice_sample
 
         public void Configure(IApplicationBuilder app)
         {
+
+            // Add logging
+            ApplicationLog.AddConsole();
+            ILogger logger = ApplicationLog.CreateLogger<Startup>();
+            logger.LogInformation("Initialising service");
 
             // Build an IConfiguration instance using the ConfigurationBuilder as normal
             Dictionary<string, string> collection = new Dictionary<string, string>() { { "key1", "value1" }, { "key2", "value2" } };
