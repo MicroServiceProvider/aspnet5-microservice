@@ -10,8 +10,7 @@
   "dependencies": {
     "Microsoft.AspNet.Http.Abstractions": "1.0.0-beta7",
     "Newtonsoft.Json": "7.0.1",
-    "Microsoft.Framework.Configuration": "1.0.0-beta7",
-    "Microsoft.Framework.Logging": "1.0.0-beta7"
+    "Microsoft.Framework.Configuration": "1.0.0-beta7"
   },
 
   "frameworks": {

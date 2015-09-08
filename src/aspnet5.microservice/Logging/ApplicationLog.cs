@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
-using Microsoft.Framework.Logging;
 
 namespace AspNet5.Microservice.Logging
 {
@@ -9,16 +9,7 @@ namespace AspNet5.Microservice.Logging
     /// </summary>
     public class ApplicationLog
     {
-        public static readonly ILoggerFactory Factory = new LoggerFactory();
-
-        /// <summary>
-        /// Add console logger with the specified filter function
-        /// <param name="filter">The filter function to pass to the console logger</param>
-        /// </summary>
-        public static void AddConsole(Func<string, LogLevel, bool> filter)
-        {
-            Factory.AddProvider(new ConsoleLogProvider(filter));
-        }
+        internal static readonly List<IApplicationLogProvider> Providers = new List<IApplicationLogProvider>();
 
         /// <summary>
         /// Add console logger with a defined minimum log level
@@ -26,23 +17,32 @@ namespace AspNet5.Microservice.Logging
         /// </summary>
         public static void AddConsole(LogLevel minLevel)
         {
-            Factory.AddProvider(new ConsoleLogProvider((category, logLevel) => logLevel >= minLevel));
+            Providers.Add(new ConsoleLog(minLevel));
         }
 
         /// <summary>
-        /// Add console logger with a default log level of Information
+        /// Add console logger with a default log level of INFO
         /// </summary>
         public static void AddConsole()
         {
-            Factory.AddProvider(new ConsoleLogProvider((category, logLevel) => logLevel >= LogLevel.Information));
+            Providers.Add(new ConsoleLog());
         }
 
         /// <summary>
         /// Create a logger instance for the specified type
         /// </summary>
-        public static ILogger CreateLogger<T>()
+        public static Logger CreateLogger<T>()
         {
-            return Factory.CreateLogger<T>();
+            return new Logger(typeof(T).ToString());
+        }
+
+        /// <summary>
+        /// Create a logger instance with the specified name
+        /// <param name="name">Name to assign to this logger</param>
+        /// </summary>
+        public static Logger CreateLogger(string name)
+        {
+            return new Logger(name);
         }
 
         /// <summary>
@@ -51,15 +51,15 @@ namespace AspNet5.Microservice.Logging
         /// </summary>
         public static void AddFile(string path, LogLevel minLevel)
         {
-            Factory.AddProvider(new LogFileProvider((category, logLevel) => logLevel >= minLevel, path));
+            Providers.Add(new FileLog(path, minLevel));
         }
 
         /// <summary>
-        /// Create a logger instance that logs to a file
+        /// Create a logger instance that logs to a file with a default level of INFO
         /// </summary>
         public static void AddFile(string path)
         {
-            Factory.AddProvider(new LogFileProvider((category, logLevel) => logLevel >= LogLevel.Information, path));
+            Providers.Add(new FileLog(path));
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace AspNet5.Microservice.Logging
             var logLevelString = GetLogLevelString(logLevel);
 
             // Return the formatted message
-            return $"{formattedDate} [Thread-{Thread.CurrentThread.Name}] {logLevelString}  {loggerName} - {message}";
+            return $"{formattedDate} [Thread-{Thread.CurrentThread.ManagedThreadId}] {logLevelString}  {loggerName} - {message}";
         }
 
         /// <summary>
@@ -92,16 +92,16 @@ namespace AspNet5.Microservice.Logging
             {
                 case LogLevel.Debug:
                     return "DEBUG";
-                case LogLevel.Verbose:
-                    return "NOTICE";
-                case LogLevel.Information:
+                case LogLevel.Info:
                     return "INFO";
-                case LogLevel.Warning:
+                case LogLevel.Notice:
+                    return "NOTICE";
+                case LogLevel.Warn:
                     return "WARN";
                 case LogLevel.Error:
                     return "ERROR";
                 case LogLevel.Critical:
-                    return "CRITICAL";
+                    return "CRIT";
                 default:
                     return "UNKNOWN";
             }
