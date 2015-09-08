@@ -15,6 +15,13 @@ namespace AspNet5.Microservice
                 if (context.Request.Path.Value.StartsWith("/health"))
                 {
                     HealthCheckRegistry.HealthStatus status = HealthCheckRegistry.GetStatus();
+
+                    if (!status.IsHealthy)
+                    {
+                        // Return a service unavailable status code if any of the checks fail
+                        context.Response.StatusCode = 503;
+                    }
+
                     context.Response.Headers.Set("Content-Type", "application/json");
                     await context.Response.WriteAsync(JsonConvert.SerializeObject(status));
                 }
