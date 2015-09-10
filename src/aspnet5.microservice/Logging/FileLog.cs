@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace AspNet5.Microservice.Logging
 {
@@ -11,9 +12,34 @@ namespace AspNet5.Microservice.Logging
 
         public FileLog(string filePath, LogLevel minLevel = LogLevel.Info)
         {
+            AttemptToCreateDirectory(filePath);
             _logFileStream = new FileStream(filePath, FileMode.Append, FileAccess.Write, FileShare.ReadWrite);
             _minLevel = minLevel;
             _logFile = filePath;
+        }
+
+        // Attempt to create the directory where the log file will be located
+        public void AttemptToCreateDirectory(string path)
+        {
+            if (string.IsNullOrEmpty(path))
+            {
+                throw new ArgumentNullException(nameof(path));
+            }
+
+            var filePath = new FileInfo(path).Directory.FullName;
+
+            if (!Directory.Exists(filePath))
+            {
+                try
+                {
+                    Directory.CreateDirectory(filePath);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Could not create log directory, Error: "+ e.Message);
+                }
+            }
+
         }
 
         public void WriteLog(string message, LogLevel level)
