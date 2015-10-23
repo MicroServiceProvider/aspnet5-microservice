@@ -8,7 +8,7 @@ namespace AspNet5.Microservice
     /// <summary>
     ///  A static class that groups together instances of IConfiguration and allows them to be accessed anywhere in the application
     /// </summary>
-    public class AppConfig : ConfigurationSource
+    public class AppConfig : ConfigurationProvider
     {
         public static Dictionary<string, IConfiguration> Sources { get; } = new Dictionary<string, IConfiguration>();
         public static string ApplicationEnvironment { get; set; }

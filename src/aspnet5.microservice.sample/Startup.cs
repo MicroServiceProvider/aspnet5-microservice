@@ -44,7 +44,7 @@ namespace aspnet5_microservice_sample
             // Build an IConfiguration instance using the ConfigurationBuilder as normal
             Dictionary<string, string> collection = new Dictionary<string, string>() { { "key1", "value1" }, { "key2", "value2" } };
             var config1 = new ConfigurationBuilder().AddInMemoryCollection(collection).Build();
-            var config2 = new ConfigurationBuilder(_appenv.ApplicationBasePath).AddIniFile("hosting.ini").Build();
+            var config2 = new ConfigurationBuilder().AddIniFile("hosting.ini").Build();
 
             // AppConfig is a static class that groups together instances of IConfiguration and makes them available statically anywhere in the application
             AppConfig.AddConfigurationObject(config1, "memorySource");

@@ -22,7 +22,7 @@ namespace AspNet5.Microservice
                         context.Response.StatusCode = 503;
                     }
 
-                    context.Response.Headers.Set("Content-Type", "application/json");
+                    context.Response.Headers["Content-Type"] = "application/json";
                     await context.Response.WriteAsync(JsonConvert.SerializeObject(status));
                 }
                 else
@@ -41,7 +41,7 @@ namespace AspNet5.Microservice
                     // Get current application environment
                     ApplicationEnvironment env = ApplicationEnvironment.GetApplicationEnvironment();
 
-                    context.Response.Headers.Set("Content-Type", "application/json");
+                    context.Response.Headers["Content-Type"] = "application/json";
                     await context.Response.WriteAsync(JsonConvert.SerializeObject(env, new JsonSerializerSettings() { StringEscapeHandling = StringEscapeHandling.EscapeNonAscii}));
                 }
                 else
@@ -72,7 +72,8 @@ namespace AspNet5.Microservice
                         Name = entryAssembly.Name,
                         Version = entryAssembly.Version.ToString(3)
                     };
-                    context.Response.Headers.Set("Content-Type", "application/json");
+
+                    context.Response.Headers["Content-Type"] = "application/json";
                     await context.Response.WriteAsync(JsonConvert.SerializeObject(appInfo));
                 }
                 else
