@@ -1,6 +1,10 @@
 Changes
 =======
 
+#### 0.5.0
+
+- Updated to support DNX RC1 Update 1
+
 #### 0.4.0
 
 - Updated to support DNX beta 8

@@ -2,14 +2,20 @@
   "webroot": "wwwroot",
   "version": "1.0.0-*",
 
+  "compilationOptions": {
+    "emitEntryPoint": true
+  },
+
   "dependencies": {
     "aspnet5.microservice": "",
-    "Microsoft.AspNet.Server.Kestrel": "1.0.0-beta8",
-    "Microsoft.Framework.Configuration.Ini": "1.0.0-beta8"
+    "Microsoft.AspNet.Server.Kestrel": "1.0.0-rc1-final",
+    "Microsoft.Extensions.Configuration": "1.0.0-rc1-final",
+    "Microsoft.Extensions.Configuration.Ini": "1.0.0-rc1-final",
+    "Microsoft.AspNet.Hosting": "1.0.0-rc1-final"
   },
 
   "commands": {
-    "kestrel": "Microsoft.AspNet.Hosting --server=Microsoft.AspNet.Server.Kestrel --server.urls=http://localhost:5000"
+    "web": "Microsoft.AspNet.Hosting --server=Microsoft.AspNet.Server.Kestrel --server.urls=http://localhost:5000"
   },
 
   "frameworks": {

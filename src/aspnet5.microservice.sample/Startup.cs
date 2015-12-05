@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 using AspNet5.Microservice;
 using AspNet5.Microservice.Health;
 using AspNet5.Microservice.Logging;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
-using Microsoft.Dnx.Runtime;
-using Microsoft.Framework.Configuration;
-using Microsoft.Framework.DependencyInjection;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.PlatformAbstractions;
 
 #if DNXCORE50
 using System.Reflection;
@@ -34,7 +33,6 @@ namespace aspnet5_microservice_sample
 
         public void Configure(IApplicationBuilder app)
         {
-
             // Add logging
             ApplicationLog.AddConsole();
             ApplicationLog.AddFile("Test.log");
@@ -96,6 +94,9 @@ namespace aspnet5_microservice_sample
         {
             return HealthResponse.Unhealthy("Sample operation failed");
         }
+
+        // Entry point for the application.
+        public static void Main(string[] args) => WebApplication.Run<Startup>(args);
 
     }
 
