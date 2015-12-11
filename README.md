@@ -45,7 +45,7 @@ dnu restore
 Start the application by running the below from the sample project directory
 
 ```
-dnx . kestrel
+dnx web
 ```
 
 The following endpoints will be available:
