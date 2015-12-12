@@ -1,6 +1,10 @@
 Changes
 =======
 
+#### 0.5.1
+
+- Add ability to opt out of displaying environment variables on the env endpoint
+
 #### 0.5.0
 
 - Updated to support DNX RC1 Update 1
