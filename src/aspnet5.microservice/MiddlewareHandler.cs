@@ -32,14 +32,14 @@ namespace AspNet5.Microservice
             });
         }
 
-        public static void UseEnvironmentEndpoint(this IApplicationBuilder app)
+        public static void UseEnvironmentEndpoint(this IApplicationBuilder app, bool includeEnvVars = false)
         {
             app.Use(async (context, next) =>
             {
                 if (context.Request.Path.Value.Equals("/env"))
                 {
                     // Get current application environment
-                    ApplicationEnvironment env = ApplicationEnvironment.GetApplicationEnvironment();
+                    ApplicationEnvironment env = ApplicationEnvironment.GetApplicationEnvironment(includeEnvVars);
 
                     context.Response.Headers["Content-Type"] = "application/json";
                     await context.Response.WriteAsync(JsonConvert.SerializeObject(env, new JsonSerializerSettings() { StringEscapeHandling = StringEscapeHandling.EscapeNonAscii}));

@@ -26,9 +26,10 @@ namespace AspNet5.Microservice
 
         /// <summary>
         /// Gather details about the environment the application is running in
+        /// <param name="includeEnvVars">Indicate whether to include environment varialbles or not.Default is false</param>
         /// <returns>Returns an instance of ApplicationEnvironment</returns>
         /// </summary>
-        public static ApplicationEnvironment GetApplicationEnvironment()
+        public static ApplicationEnvironment GetApplicationEnvironment(bool includeEnvVars = false)
         {
             ApplicationEnvironment env = new ApplicationEnvironment();
 
@@ -80,17 +81,20 @@ namespace AspNet5.Microservice
                 env.Framework = "CoreCLR";
             #else
                 env.Framework = Type.GetType("Mono.Runtime") != null ? "Mono" : ".NET Framework";
-            #endif
+#endif
 
-            // Loop over environment variables to escape special characters
-            IDictionary envVars = Environment.GetEnvironmentVariables();
-            
-            foreach (var envVarKey in envVars.Keys)
+            if (includeEnvVars)
             {
-                string envVarValue = envVars[envVarKey].ToString();
-                envVarValue = envVarValue.Replace("\\", "\\\\");
-                envVarValue = envVarValue.Replace('"', '\"');
-                env.EnvironmentVariables.Add(envVarKey.ToString(), envVarValue);
+                // Loop over environment variables to escape special characters
+                IDictionary envVars = Environment.GetEnvironmentVariables();
+
+                foreach (var envVarKey in envVars.Keys)
+                {
+                    string envVarValue = envVars[envVarKey].ToString();
+                    envVarValue = envVarValue.Replace("\\", "\\\\");
+                    envVarValue = envVarValue.Replace('"', '\"');
+                    env.EnvironmentVariables.Add(envVarKey.ToString(), envVarValue);
+                }
             }
 
             // Loop over configuration sources and get their values
