@@ -1,6 +1,10 @@
 Changes
 =======
 
+#### 0.5.2
+
+- Add option to restrict actuator endpoint access to certain IP addresses
+
 #### 0.5.1
 
 - Add ability to opt out of displaying environment variables on the env endpoint

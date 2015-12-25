@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Net;
+using System.Reflection;
 using AspNet5.Microservice.Health;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Http;
@@ -12,8 +14,18 @@ namespace AspNet5.Microservice
         {
             app.Use(async (context, next) =>
             {
-                if (context.Request.Path.Value.StartsWith("/health"))
+                if (context.Request.Path.Value.Equals("/health"))
                 {
+                    // Perform IP access check
+                    if(MicroserviceBootstrap.AllowedIpAddresses != null && context.Request.HttpContext.Connection.RemoteIpAddress != null)
+                    {
+                        if (!MicroserviceBootstrap.AllowedIpAddresses.Contains(context.Request.HttpContext.Connection.RemoteIpAddress))
+                        {
+                            context.Response.StatusCode = 403;
+                            await next();
+                        }
+                    }
+
                     HealthCheckRegistry.HealthStatus status = HealthCheckRegistry.GetStatus();
 
                     if (!status.IsHealthy)
@@ -38,6 +50,16 @@ namespace AspNet5.Microservice
             {
                 if (context.Request.Path.Value.Equals("/env"))
                 {
+                    // Perform IP access check
+                    if (MicroserviceBootstrap.AllowedIpAddresses != null && context.Request.HttpContext.Connection.RemoteIpAddress != null)
+                    {
+                        if (!MicroserviceBootstrap.AllowedIpAddresses.Contains(context.Request.HttpContext.Connection.RemoteIpAddress))
+                        {
+                            context.Response.StatusCode = 403;
+                            await next();
+                        }
+                    }
+
                     // Get current application environment
                     ApplicationEnvironment env = ApplicationEnvironment.GetApplicationEnvironment(includeEnvVars);
 
@@ -67,6 +89,16 @@ namespace AspNet5.Microservice
             {
                 if (context.Request.Path.Value.Equals("/info"))
                 {
+                    // Perform IP access check
+                    if (MicroserviceBootstrap.AllowedIpAddresses != null && context.Request.HttpContext.Connection.RemoteIpAddress != null)
+                    {
+                        if (!MicroserviceBootstrap.AllowedIpAddresses.Contains(context.Request.HttpContext.Connection.RemoteIpAddress))
+                        {
+                            context.Response.StatusCode = 403;
+                            await next();
+                        }
+                    }
+
                     var appInfo = new
                     {
                         Name = entryAssembly.Name,

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using AspNet5.Microservice;
 using AspNet5.Microservice.Health;
 using AspNet5.Microservice.Logging;
+using AspNet5.Microservice.Utils;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -62,6 +63,21 @@ namespace aspnet5_microservice_sample
             HealthCheckRegistry.RegisterHealthCheck("MyCustomMonitor", () => HealthResponse.Healthy("Test Message"));
             HealthCheckRegistry.RegisterHealthCheck("MyCustomMonitor2", () => HealthResponse.Healthy("Test Message2"));
             HealthCheckRegistry.RegisterHealthCheck("SampleOperation", () => SampleHealthCheckOperation());
+
+            /*
+                Uncomment the below line to only allow access to the actuator endpoints from localhost
+
+                Allowed patterns are:
+
+                1. CIDR range: "192.168.0.0/24", "fe80::/10"
+                2. Single address: "127.0.0.1", ":;1"
+                3. Begin end range: "169.258.0.0-169.258.0.255"
+                4. Bit mask range: "192.168.0.0/255.255.255.0"
+
+                NOTE: Currently this feature is not supported under Kestrel self-host as it does not set the client's IP address in HttpContext
+            */
+
+            //MicroserviceBootstrap.AllowedIpAddresses = IpAddressRange.Parse("127.0.0.0/8");
 
             // Activate /health endpoint
             app.UseHealthEndpoint();
