@@ -2,7 +2,7 @@
 
 namespace AspNet5.Microservice
 {
-    public class MicroserviceBootstrap
+    public class MicroserviceConfiguration
     {
         /// <summary>
         /// Specifies the IP address range that is allowed to access the actuator endpoints. Default allows all IPs

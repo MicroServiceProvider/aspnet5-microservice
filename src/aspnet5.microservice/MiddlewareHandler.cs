@@ -17,9 +17,9 @@ namespace AspNet5.Microservice
                 if (context.Request.Path.Value.Equals("/health"))
                 {
                     // Perform IP access check
-                    if(MicroserviceBootstrap.AllowedIpAddresses != null && context.Request.HttpContext.Connection.RemoteIpAddress != null)
+                    if(MicroserviceConfiguration.AllowedIpAddresses != null && context.Request.HttpContext.Connection.RemoteIpAddress != null)
                     {
-                        if (!MicroserviceBootstrap.AllowedIpAddresses.Contains(context.Request.HttpContext.Connection.RemoteIpAddress))
+                        if (!MicroserviceConfiguration.AllowedIpAddresses.Contains(context.Request.HttpContext.Connection.RemoteIpAddress))
                         {
                             context.Response.StatusCode = 403;
                             await next();
@@ -51,9 +51,9 @@ namespace AspNet5.Microservice
                 if (context.Request.Path.Value.Equals("/env"))
                 {
                     // Perform IP access check
-                    if (MicroserviceBootstrap.AllowedIpAddresses != null && context.Request.HttpContext.Connection.RemoteIpAddress != null)
+                    if (MicroserviceConfiguration.AllowedIpAddresses != null && context.Request.HttpContext.Connection.RemoteIpAddress != null)
                     {
-                        if (!MicroserviceBootstrap.AllowedIpAddresses.Contains(context.Request.HttpContext.Connection.RemoteIpAddress))
+                        if (!MicroserviceConfiguration.AllowedIpAddresses.Contains(context.Request.HttpContext.Connection.RemoteIpAddress))
                         {
                             context.Response.StatusCode = 403;
                             await next();
@@ -90,9 +90,9 @@ namespace AspNet5.Microservice
                 if (context.Request.Path.Value.Equals("/info"))
                 {
                     // Perform IP access check
-                    if (MicroserviceBootstrap.AllowedIpAddresses != null && context.Request.HttpContext.Connection.RemoteIpAddress != null)
+                    if (MicroserviceConfiguration.AllowedIpAddresses != null && context.Request.HttpContext.Connection.RemoteIpAddress != null)
                     {
-                        if (!MicroserviceBootstrap.AllowedIpAddresses.Contains(context.Request.HttpContext.Connection.RemoteIpAddress))
+                        if (!MicroserviceConfiguration.AllowedIpAddresses.Contains(context.Request.HttpContext.Connection.RemoteIpAddress))
                         {
                             context.Response.StatusCode = 403;
                             await next();
