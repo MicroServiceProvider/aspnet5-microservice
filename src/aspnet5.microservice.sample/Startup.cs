@@ -10,7 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.PlatformAbstractions;
 
-#if DNXCORE50
+#if DNXCORE50 || DOTNET5_4
 using System.Reflection;
 #endif 
 
@@ -97,7 +97,7 @@ namespace aspnet5_microservice_sample
              */
 
             // Activate /info endpoint
-#if DNXCORE50
+#if DNXCORE50 || DOTNET5_4
             // Required for .NET Core until the relevant APIs are added
             app.UseInfoEndpoint(typeof(Startup).GetTypeInfo().Assembly.GetName());
 #else

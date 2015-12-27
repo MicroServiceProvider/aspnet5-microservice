@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
-#if DNXCORE50
+#if DNXCORE50 || DOTNET5_4
 using System.Runtime.InteropServices;
 #endif
 
@@ -37,7 +37,7 @@ namespace AspNet5.Microservice
             env.ProcessStartTime = Process.GetCurrentProcess().StartTime;
             env.Hostname = Dns.GetHostName();
 
-#if DNXCORE50
+#if DNXCORE50 || DOTNET5_4
             // Allow OS detection on .NET Core
             if(RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
@@ -103,7 +103,7 @@ namespace AspNet5.Microservice
                 env.ApplicationConfiguration.Add(source, AppConfig.GetAllValues(source));
             }
 
-#if !DNXCORE50
+#if !DNXCORE50 && !DOTNET5_4
             env.CommandLine = Environment.CommandLine.Replace("\\", "\\\\");
 #endif
             return env;

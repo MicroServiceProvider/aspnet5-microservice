@@ -74,7 +74,7 @@ namespace AspNet5.Microservice
         }
 
         // For DNX running on the full CLR we can use the GetExecutingAssembly() method to get our entry assembly
-#if DNX451
+#if DNX451 || NET451
         public static void UseInfoEndpoint(this IApplicationBuilder app)
         {
             Assembly entryAssembly = Assembly.GetCallingAssembly();
