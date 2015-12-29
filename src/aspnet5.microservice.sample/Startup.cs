@@ -44,10 +44,12 @@ namespace aspnet5_microservice_sample
             Dictionary<string, string> collection = new Dictionary<string, string>() { { "key1", "value1" }, { "key2", "value2" } };
             var config1 = new ConfigurationBuilder().AddInMemoryCollection(collection).Build();
             var config2 = new ConfigurationBuilder().AddIniFile("hosting.ini").Build();
+            var config3 = new ConfigurationBuilder().AddJsonFile("config.json").Build();
 
             // AppConfig is a static class that groups together instances of IConfiguration and makes them available statically anywhere in the application
             AppConfig.AddConfigurationObject(config1, "memorySource");
             AppConfig.AddConfigurationObject(config2, "iniSource");
+            AppConfig.AddConfigurationObject(config3, "jsonSource");
 
             // The above configuration sources can now be referenced easily with a static helper function
             Console.WriteLine("key1 key in memorySource: "+ AppConfig.Get("memorySource", "key1"));

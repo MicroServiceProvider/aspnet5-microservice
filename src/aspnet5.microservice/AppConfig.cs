@@ -59,7 +59,7 @@ namespace AspNet5.Microservice
         ///  <param name="sourceName">Name of IConfiguration instance where the key is to be set</param>
         ///  <returns>Returns a dictionary containing the configuration key-value pairs</returns>
         /// </summary>
-        public static Dictionary<string,string> GetAllValues(string sourceName)
+        public static Dictionary<string, string> GetAllValues(string sourceName)
         {
             if (!Sources.ContainsKey(sourceName))
             {
@@ -68,8 +68,33 @@ namespace AspNet5.Microservice
             
             // Get children of this source and return them
             IConfiguration sourceConfiguration = Sources[sourceName];
-            Dictionary<string, string> valuesDictionary = sourceConfiguration.GetChildren().ToDictionary(child => child.Key, child => child.Value);
+            Dictionary<string, string> valuesDictionary = RecurseConfig(sourceConfiguration);
+
+            //Dictionary<string, string> valuesDictionary = sourceConfiguration.GetChildren().ToDictionary(child => child.Key, child => child.Value);
             return valuesDictionary;
+        }
+
+        private static Dictionary<string, string> RecurseConfig(IConfiguration source)
+        {
+            Dictionary<string, string> result = new Dictionary<string, string>();
+
+            foreach (var child in source.GetChildren())
+            {
+                if (child.GetChildren().Count() != 0)
+                {
+                    result = result.Concat(RecurseConfig(child)).GroupBy(d => d.Key).ToDictionary(d => d.Key, d => d.First().Value);
+                }
+
+                if (child.GetChildren().Count() != 0 && string.IsNullOrEmpty(child.Value))
+                {
+                    continue;
+                }
+
+                result.Add(child.Path, child.Value);
+
+            }
+
+            return result;
         }
 
     }

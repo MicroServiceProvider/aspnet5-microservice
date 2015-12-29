@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
+using Microsoft.Extensions.Configuration;
+
 #if DNXCORE50 || DOTNET5_4
 using System.Runtime.InteropServices;
 #endif

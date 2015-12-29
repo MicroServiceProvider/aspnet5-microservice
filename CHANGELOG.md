@@ -1,6 +1,12 @@
 Changes
 =======
 
+#### 0.5.4
+
+- Fixed the environment endpoint not displaying configuration sub-sections. Configuration is now displayed as key-value pairs with the key being the name the name that you would pass to AppConfig.Get() method. 
+Since the AppConfig class just uses the Microsoft configuration under the hood configuration property names follow the same conventions e.g. : (colon) to denote subsections. 
+The sample project has a JSON file included that demonstrates this.
+
 #### 0.5.2
 
 - Add option to restrict actuator endpoint access to certain IP addresses
